@@ -1,3 +1,65 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --font-cormorant: 'Cormorant Garamond', Georgia, serif;
+    --font-jost: 'Jost', system-ui, sans-serif;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: #0a0a0a;
+  }
+
+  body {
+    background-color: #0a0a0a !important;
+    color: #f5f0e8;
+    font-family: var(--font-jost), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Garante que nenhum elemento herde fundo branco do browser */
+  #__next,
+  main {
+    background-color: #0a0a0a;
+  }
+
+  /* Seleção de texto com cor dourada */
+  ::selection {
+    background-color: rgba(201, 168, 76, 0.25);
+    color: #f5f0e8;
+  }
+
+  /* Scrollbar elegante */
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0a0a0a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(201, 168, 76, 0.25);
+    border-radius: 2px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(201, 168, 76, 0.5);
+  }
+}
+
+@layer utilities {
+  .font-cormorant {
+    font-family: var(--font-cormorant) !important;
+  }
+  .font-jost {
+    font-family: var(--font-jost) !important;
+  }
+}

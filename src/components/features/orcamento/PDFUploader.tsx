@@ -1,105 +1,86 @@
-"use client";
+'use client'
 
-import { useCallback, useState, useEffect } from "react";
-import { usePDF } from "@/hooks/usePDF";
+import { useCallback, useState, useEffect } from 'react'
+import { usePDF } from '@/hooks/usePDF'
 
-// Interface que define as props do componente
-// Paralelo Java: Similar a um DTO ou Record que define os parâmetros de entrada
 interface PDFUploaderProps {
-  onPageCountExtracted: (pageCount: number) => void;
+  onPageCountExtracted: (pageCount: number) => void
 }
 
-/**
- * Componente de Upload de PDF com Drag & Drop
- * 
- * Paralelo Java: Este é um componente de View (camada de apresentação).
- * Pense nele como um formulário JSP que:
- * - Recebe callbacks via props (similar a passar listeners)
- * - Gerencia estado local de UI (isDragging)
- * - Delega lógica de negócio para o hook usePDF (Service)
- */
 export function PDFUploader({ onPageCountExtracted }: PDFUploaderProps) {
-  const { pageCount, isLoading, error, extractPageCount } = usePDF();
-  const [isDragging, setIsDragging] = useState<boolean>(false);
+  const { pageCount, isLoading, error, extractPageCount } = usePDF()
+  const [isDragging, setIsDragging] = useState(false)
+  const [fileName, setFileName] = useState<string | null>(null)
 
-  /**
-   * Processa o arquivo selecionado
-   * 
-   * Paralelo Java: Método privado que valida e processa entrada,
-   * similar a um método helper em um Controller
-   */
   const handleFile = useCallback(
     async (file: File) => {
-      // Validação de tipo MIME
-      if (file.type !== "application/pdf") {
-        alert("Por favor, selecione apenas arquivos PDF");
-        return;
+      if (file.type !== 'application/pdf') {
+        alert('Por favor, selecione apenas arquivos PDF')
+        return
       }
-
-      await extractPageCount(file);
+      setFileName(file.name)
+      await extractPageCount(file)
     },
     [extractPageCount]
-  );
+  )
 
-  /**
-   * Handler para evento de drop (soltar arquivo)
-   * 
-   * Paralelo Java: Similar a um método que processa um evento de submit
-   */
   const handleDrop = useCallback(
     (e: React.DragEvent<HTMLDivElement>) => {
-      e.preventDefault();
-      setIsDragging(false);
-
-      const files = e.dataTransfer.files;
-      if (files.length > 0) {
-        handleFile(files[0]);
-      }
+      e.preventDefault()
+      setIsDragging(false)
+      const files = e.dataTransfer.files
+      if (files.length > 0) handleFile(files[0])
     },
     [handleFile]
-  );
+  )
 
-  /**
-   * Handler para input file tradicional (fallback)
-   */
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const files = e.target.files;
-      if (files && files.length > 0) {
-        handleFile(files[0]);
-      }
+      const files = e.target.files
+      if (files && files.length > 0) handleFile(files[0])
     },
     [handleFile]
-  );
+  )
 
-  // Efeito colateral para notificar o componente pai quando pageCount é extraído.
-  // Usar useEffect garante que a notificação ocorra apenas quando os valores
-  // relevantes (pageCount, isLoading) mudam, evitando chamadas em renderizações indesejadas.
   useEffect(() => {
     if (pageCount !== null && !isLoading) {
-      onPageCountExtracted(pageCount);
+      onPageCountExtracted(pageCount)
     }
-  }, [pageCount, isLoading, onPageCountExtracted]);
+  }, [pageCount, isLoading, onPageCountExtracted])
 
   return (
-    <div className="w-full max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-4 text-gray-800">
-        Upload do Manuscrito
-      </h2>
+    <div className="w-full space-y-4">
 
-      {/* Dropzone - Área de Drag & Drop */}
+      {/* Label */}
+      <label className="block font-jost text-xs tracking-[0.25em] uppercase text-[#c9a84c]">
+        Manuscrito em PDF <span className="text-[#c9a84c]/50">*</span>
+      </label>
+
+      {/* ⚠️ Aviso sobre imperfeições — exibido ANTES do upload */}
+      <div className="flex items-start gap-3 px-5 py-4" style={{ background: '#1a1400', border: '1px solid #92600a' }}>
+        <span className="text-yellow-500 text-base shrink-0 mt-0.5">⚠️</span>
+        <div>
+          <p className="font-jost text-xs font-semibold tracking-wide mb-1" style={{ color: '#f59e0b' }}>
+            Atenção antes de enviar
+          </p>
+          <p className="font-jost text-xs tracking-wide leading-relaxed" style={{ color: '#d97706' }}>
+            Não nos responsabilizamos por PDFs com imperfeições como páginas faltantes,
+            ordem invertida ou manchas. Verifique seu arquivo antes de prosseguir.
+          </p>
+        </div>
+      </div>
+
+      {/* Zona de upload */}
       <div
         onDrop={handleDrop}
-        onDragOver={(e) => {
-          e.preventDefault();
-          setIsDragging(true);
-        }}
+        onDragOver={(e) => { e.preventDefault(); setIsDragging(true) }}
         onDragLeave={() => setIsDragging(false)}
         className={`
-          border-2 border-dashed rounded-lg p-12 text-center cursor-pointer
-          transition-colors duration-200
-          ${isDragging ? "border-blue-500 bg-blue-50" : "border-gray-300 bg-gray-50"}
-          hover:border-blue-400 hover:bg-blue-50
+          relative border transition-all duration-300
+          ${isDragging
+            ? 'border-[#c9a84c] bg-[#c9a84c]/5'
+            : 'border-[#c9a84c]/20 hover:border-[#c9a84c]/40 bg-[#111]'
+          }
         `}
       >
         <input
@@ -109,50 +90,74 @@ export function PDFUploader({ onPageCountExtracted }: PDFUploaderProps) {
           className="hidden"
           id="pdf-upload"
         />
-        <label htmlFor="pdf-upload" className="cursor-pointer">
-          <div className="flex flex-col items-center gap-3">
-            <svg
-              className="w-16 h-16 text-gray-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-              />
-            </svg>
-            <p className="text-lg font-medium text-gray-700">
-              Arraste e solte seu PDF aqui
-            </p>
-            <p className="text-sm text-gray-500">ou clique para selecionar</p>
+        <label htmlFor="pdf-upload" className="cursor-pointer flex items-center gap-5 px-6 py-5">
+
+          {/* Ícone */}
+          <div className={`
+            shrink-0 w-10 h-10 border flex items-center justify-center transition-all duration-300
+            ${isDragging ? 'border-[#c9a84c]' : 'border-[#c9a84c]/25'}
+          `}>
+            {isLoading ? (
+              <div className="w-4 h-4 border border-[#c9a84c]/40 border-t-[#c9a84c] rounded-full animate-spin" />
+            ) : pageCount !== null ? (
+              <span className="text-[#c9a84c] text-sm">✦</span>
+            ) : (
+              <svg className={`w-4 h-4 transition-colors ${isDragging ? 'text-[#c9a84c]' : 'text-[#c9a84c]/40'}`}
+                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+              </svg>
+            )}
           </div>
+
+          {/* Texto */}
+          <div className="flex-1 min-w-0">
+            {fileName ? (
+              <>
+                <p className="font-cormorant text-base text-[#c9a84c] italic truncate">{fileName}</p>
+                <p className="font-jost text-xs text-[#e8d5a3]/40 tracking-wide mt-0.5">Clique para substituir</p>
+              </>
+            ) : (
+              <>
+                <p className="font-jost text-sm text-[#e8d5a3]/60 tracking-wide">
+                  Arraste o PDF ou clique para selecionar
+                </p>
+                <p className="font-jost text-xs text-[#e8d5a3]/30 tracking-wide mt-0.5">
+                  Somente arquivos .pdf
+                </p>
+              </>
+            )}
+          </div>
+
+          {/* Badge de páginas */}
+          {pageCount !== null && !isLoading && (
+            <div className="shrink-0 border border-[#c9a84c]/40 px-3 py-1.5 text-center">
+              <p className="font-cormorant text-xl text-[#c9a84c] font-light leading-none">{pageCount}</p>
+              <p className="font-jost text-[10px] text-[#c9a84c]/50 tracking-wider uppercase mt-0.5">
+                {pageCount === 1 ? 'pág.' : 'págs.'}
+              </p>
+            </div>
+          )}
         </label>
       </div>
 
-      {/* Estados de Loading, Erro e Sucesso */}
-      <div className="mt-4">
-        {isLoading && (
-          <div className="flex items-center gap-2 text-blue-600">
-            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
-            <span>Processando PDF...</span>
-          </div>
-        )}
+      {/* Erro */}
+      {error && (
+        <div className="flex items-center gap-3 px-4 py-3 border border-red-500/20 bg-red-500/5">
+          <span className="text-red-400/70 text-xs shrink-0">✕</span>
+          <span className="font-jost text-xs text-red-400/70 tracking-wide leading-relaxed">{error}</span>
+        </div>
+      )}
 
-        {error && (
-          <div className="p-3 bg-red-50 border border-red-200 rounded text-red-700">
-            <strong>Erro:</strong> {error}
-          </div>
-        )}
-
-        {pageCount !== null && !isLoading && (
-          <div className="p-3 bg-green-50 border border-green-200 rounded text-green-700">
-            <strong>Sucesso!</strong> Documento com {pageCount} página(s) detectado.
-          </div>
-        )}
-      </div>
+      {/* Loading */}
+      {isLoading && (
+        <div className="flex items-center gap-3 px-4 py-2.5 border border-[#c9a84c]/15 bg-[#c9a84c]/5">
+          <div className="w-3 h-3 border border-[#c9a84c]/40 border-t-[#c9a84c] rounded-full animate-spin shrink-0" />
+          <span className="font-jost text-xs tracking-[0.15em] uppercase text-[#c9a84c]/60">
+            Analisando manuscrito...
+          </span>
+        </div>
+      )}
     </div>
-  );
+  )
 }
