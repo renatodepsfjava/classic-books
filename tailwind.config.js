@@ -20,6 +20,7 @@ module.exports = {
         ink: {
           DEFAULT: '#0a0a0a',
           soft: '#0d0d0d',
+          deep: '#050505',
           muted: '#111111',
           subtle: '#2a2a2a',
         },

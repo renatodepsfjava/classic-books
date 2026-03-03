@@ -54,8 +54,8 @@ export function PDFUploader({ onPageCountExtracted, onLoadingStart }: PDFUploade
     <div className="w-full space-y-4">
 
       {/* Label */}
-      <label className="block font-jost text-xs tracking-[0.25em] uppercase text-[#c9a84c]">
-        Manuscrito em PDF <span className="text-[#c9a84c]/50">*</span>
+      <label className="block font-jost text-xs tracking-[0.25em] uppercase text-gold">
+        Manuscrito em PDF <span className="text-gold/50">*</span>
       </label>
 
       {/* ⚠️ Aviso sobre imperfeições — exibido ANTES do upload */}
@@ -80,8 +80,8 @@ export function PDFUploader({ onPageCountExtracted, onLoadingStart }: PDFUploade
         className={`
           relative border transition-all duration-300
           ${isDragging
-            ? 'border-[#c9a84c] bg-[#c9a84c]/5'
-            : 'border-[#c9a84c]/20 hover:border-[#c9a84c]/40 bg-[#111]'
+            ? 'border-gold bg-gold/5'
+            : 'border-gold/20 hover:border-gold/40 bg-ink-muted'
           }
         `}
       >
@@ -97,14 +97,14 @@ export function PDFUploader({ onPageCountExtracted, onLoadingStart }: PDFUploade
           {/* Ícone */}
           <div className={`
             shrink-0 w-10 h-10 border flex items-center justify-center transition-all duration-300
-            ${isDragging ? 'border-[#c9a84c]' : 'border-[#c9a84c]/25'}
+            ${isDragging ? 'border-gold' : 'border-gold/25'}
           `}>
             {isLoading ? (
-              <div className="w-4 h-4 border border-[#c9a84c]/40 border-t-[#c9a84c] rounded-full animate-spin" />
+              <div className="w-4 h-4 border border-gold/40 border-t-gold rounded-full animate-spin" />
             ) : pageCount !== null ? (
-              <span className="text-[#c9a84c] text-sm">✦</span>
+              <span className="text-gold text-sm">✦</span>
             ) : (
-              <svg className={`w-4 h-4 transition-colors ${isDragging ? 'text-[#c9a84c]' : 'text-[#c9a84c]/40'}`}
+              <svg className={`w-4 h-4 transition-colors ${isDragging ? 'text-gold' : 'text-gold/40'}`}
                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                   d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
@@ -116,15 +116,15 @@ export function PDFUploader({ onPageCountExtracted, onLoadingStart }: PDFUploade
           <div className="flex-1 min-w-0">
             {fileName ? (
               <>
-                <p className="font-cormorant text-base text-[#c9a84c] italic truncate">{fileName}</p>
-                <p className="font-jost text-xs text-[#e8d5a3]/40 tracking-wide mt-0.5">Clique para substituir</p>
+                <p className="font-cormorant text-base text-gold italic truncate">{fileName}</p>
+                <p className="font-jost text-xs text-gold-light/40 tracking-wide mt-0.5">Clique para substituir</p>
               </>
             ) : (
               <>
-                <p className="font-jost text-sm text-[#e8d5a3]/60 tracking-wide">
+                <p className="font-jost text-sm text-gold-light/60 tracking-wide">
                   Arraste o PDF ou clique para selecionar
                 </p>
-                <p className="font-jost text-xs text-[#e8d5a3]/30 tracking-wide mt-0.5">
+                <p className="font-jost text-xs text-gold-light/30 tracking-wide mt-0.5">
                   Somente arquivos .pdf
                 </p>
               </>
@@ -133,9 +133,9 @@ export function PDFUploader({ onPageCountExtracted, onLoadingStart }: PDFUploade
 
           {/* Badge de páginas */}
           {pageCount !== null && !isLoading && (
-            <div className="shrink-0 border border-[#c9a84c]/40 px-3 py-1.5 text-center">
-              <p className="font-cormorant text-xl text-[#c9a84c] font-light leading-none">{pageCount}</p>
-              <p className="font-jost text-[10px] text-[#c9a84c]/50 tracking-wider uppercase mt-0.5">
+            <div className="shrink-0 border border-gold/40 px-3 py-1.5 text-center">
+              <p className="font-cormorant text-xl text-gold font-light leading-none">{pageCount}</p>
+              <p className="font-jost text-[10px] text-gold/50 tracking-wider uppercase mt-0.5">
                 {pageCount === 1 ? 'pág.' : 'págs.'}
               </p>
             </div>
@@ -153,9 +153,9 @@ export function PDFUploader({ onPageCountExtracted, onLoadingStart }: PDFUploade
 
       {/* Loading */}
       {isLoading && (
-        <div className="flex items-center gap-3 px-4 py-2.5 border border-[#c9a84c]/15 bg-[#c9a84c]/5">
-          <div className="w-3 h-3 border border-[#c9a84c]/40 border-t-[#c9a84c] rounded-full animate-spin shrink-0" />
-          <span className="font-jost text-xs tracking-[0.15em] uppercase text-[#c9a84c]/60">
+        <div className="flex items-center gap-3 px-4 py-2.5 border border-gold/15 bg-gold/5">
+          <div className="w-3 h-3 border border-gold/40 border-t-gold rounded-full animate-spin shrink-0" />
+          <span className="font-jost text-xs tracking-[0.15em] uppercase text-gold/60">
             Analisando manuscrito...
           </span>
         </div>
