@@ -5,9 +5,10 @@ import { usePDF } from '@/hooks/usePDF'
 
 interface PDFUploaderProps {
   onPageCountExtracted: (pageCount: number) => void
+  onLoadingStart?: () => void
 }
 
-export function PDFUploader({ onPageCountExtracted }: PDFUploaderProps) {
+export function PDFUploader({ onPageCountExtracted, onLoadingStart }: PDFUploaderProps) {
   const { pageCount, isLoading, error, extractPageCount } = usePDF()
   const [isDragging, setIsDragging] = useState(false)
   const [fileName, setFileName] = useState<string | null>(null)
@@ -19,9 +20,10 @@ export function PDFUploader({ onPageCountExtracted }: PDFUploaderProps) {
         return
       }
       setFileName(file.name)
+      onLoadingStart?.()
       await extractPageCount(file)
     },
-    [extractPageCount]
+    [extractPageCount, onLoadingStart]
   )
 
   const handleDrop = useCallback(
@@ -61,7 +63,7 @@ export function PDFUploader({ onPageCountExtracted }: PDFUploaderProps) {
         <span className="text-yellow-500 text-base shrink-0 mt-0.5">⚠️</span>
         <div>
           <p className="font-jost text-xs font-semibold tracking-wide mb-1" style={{ color: '#f59e0b' }}>
-            Atenção antes de enviar
+            ATENÇÃO
           </p>
           <p className="font-jost text-xs tracking-wide leading-relaxed" style={{ color: '#d97706' }}>
             Não nos responsabilizamos por PDFs com imperfeições como páginas faltantes,

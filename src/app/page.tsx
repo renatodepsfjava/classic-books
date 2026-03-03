@@ -251,7 +251,7 @@ function Footer() {
               'Lombada Costurada',
               'Customização Total',
             ].map((item) => (
-              <li key={item} className="font-jost text-xs text-[#e8d5a3]/40 tracking-wide">
+              <li key={item} className="font-jost text-xs text-[#e8d5a3]/70 tracking-wide">
                 {item}
               </li>
             ))}
@@ -365,7 +365,7 @@ export default function Home() {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
             <Link
-              href="/orcamento"
+              href="/orcamento" 
               className="
                 font-jost text-xs tracking-[0.25em] uppercase
                 bg-[#c9a84c] hover:bg-[#e8d5a3] text-[#0a0a0a]
@@ -405,11 +405,6 @@ export default function Home() {
             ))}
           </div>
         </div>
-
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-          <span className="font-jost text-[#c9a84c]/50 text-xs tracking-[0.3em] uppercase">Explorar</span>
-          <div className="w-px h-12 bg-gradient-to-b from-[#c9a84c]/50 to-transparent animate-pulse" />
-        </div>
       </section>
 
       {/* ══════════════════════════════════════════
@@ -448,12 +443,12 @@ export default function Home() {
             de quem o criou.
           </h2>
           <GoldDivider />
-          <p className="font-jost text-[#e8d5a3]/55 text-sm leading-loose tracking-wide mt-8 mb-6 max-w-2xl mx-auto">
+          <p className="font-jost text-[#e8d5a3]/60 text-base leading-loose tracking-wide mt-8 mb-6 max-w-2xl mx-auto">
             Na Classic Books, recusamos a produção em série. Cada obra passa pelas mãos
             de nossos artesãos do início ao fim — da escolha do papel à costura da lombada.
             O resultado é um objeto que transcende o conceito de livro e se torna herança.
           </p>
-          <p className="font-jost text-[#e8d5a3]/55 text-sm leading-loose tracking-wide mb-12 max-w-2xl mx-auto">
+          <p className="font-jost text-[#e8d5a3]/60 text-base leading-loose tracking-wide mb-12 max-w-2xl mx-auto">
             Nossos materiais são selecionados em fornecedores especializados no Brasil e na Europa.
             Couro natural, papéis de algodão, fios de seda e cola artesanal compõem cada
             exemplar que sai do nosso ateliê.
@@ -561,7 +556,7 @@ export default function Home() {
               <h3 className="font-cormorant text-2xl text-[#f5f0e8] mb-4 group-hover:text-[#c9a84c] transition-colors">
                 Capa & Material
               </h3>
-              <p className="font-jost text-[#e8d5a3]/45 text-sm leading-loose tracking-wide mb-8">
+              <p className="font-jost text-[#e8d5a3]/60 text-sm leading-loose tracking-wide mb-8">
                 Escolha entre couro natural em diversas cores, linho belga,
                 tecido texturizado ou papel kraft premium. A capa é a primeira
                 impressão — e ela vai durar décadas.
@@ -580,7 +575,7 @@ export default function Home() {
               <h3 className="font-cormorant text-2xl text-[#f5f0e8] mb-4 group-hover:text-[#c9a84c] transition-colors">
                 Papel Interno
               </h3>
-              <p className="font-jost text-[#e8d5a3]/45 text-sm leading-loose tracking-wide mb-8">
+              <p className="font-jost text-[#e8d5a3]/60 text-sm leading-loose tracking-wide mb-8">
                 75g Marfim (incluso), ou upgrade para 90g Bold Premium.
                 Cada tipo entrega uma experiência sensorial diferente ao tocar e ler.
               </p>
@@ -598,7 +593,7 @@ export default function Home() {
               <h3 className="font-cormorant text-2xl text-[#f5f0e8] mb-4 group-hover:text-[#c9a84c] transition-colors">
                 Acabamentos Especiais
               </h3>
-              <p className="font-jost text-[#e8d5a3]/45 text-sm leading-loose tracking-wide mb-8">
+              <p className="font-jost text-[#e8d5a3]/60 text-sm leading-loose tracking-wide mb-8">
                 Hot stamping dourado ou prata na capa e lombada, bordas pintadas à mão,
                 fita de cetim e cantoneiras de metal inclusos em todos os pedidos.
               </p>
@@ -622,8 +617,8 @@ export default function Home() {
                 <h3 className="font-cormorant text-2xl text-[#f5f0e8] mb-4">
                   Cada livro é único
                 </h3>
-                <p className="font-jost text-[#e8d5a3]/45 text-sm leading-loose tracking-wide mb-4">
-                  As combinações são infinitas. Nossa equipe te guia em cada escolha
+                <p className="font-jost text-[#e8d5a3]/60 text-sm leading-loose tracking-wide mb-4">
+                  Nossa equipe te guia em cada escolha
                   para que o resultado final seja exatamente o que você imaginou.
                 </p>
                 <div className="space-y-2 mb-8">

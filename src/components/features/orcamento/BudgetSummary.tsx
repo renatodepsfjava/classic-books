@@ -1,7 +1,5 @@
 'use client'
 
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useMemo, useState } from 'react'
 
@@ -156,23 +154,22 @@ export function BudgetSummary({ pageCount, onApproved }: BudgetSummaryProps) {
   const [impressaoColorida, setImpressaoColorida] = useState(false)
   const [revisaoTextual, setRevisaoTextual] = useState(false)
 
-  const { register, handleSubmit } = useForm<BudgetFormData>({
-    resolver: zodResolver(budgetSchema),
-    defaultValues: {
-      tamanho: 'A5', papel: 'standard', estampa: 'dourado',
-      pagamento: 'avista', impressaoColorida: false, revisaoTextual: false,
-    },
-  })
-
   /* ── Regras de negócio do preço ── */
   const breakdown = useMemo(() => {
-    const PRECO_BASE          = 200.00   // Preço base do livro (R$ 200)
+    // Preço base por faixa de páginas
+    const getBase = (pages: number) => {
+      if (pages <= 150) return 160.00
+      if (pages <= 300) return 190.00
+      if (pages <= 400) return 200.00
+      return 210.00
+    }
+
     const ADICIONAL_A4        = 50.00    // A4 tem valor diferenciado
     const ADICIONAL_PAPEL_90G = 30.00    // Papel 90g marfim Bold Premium
     const ADICIONAL_COLORIDO  = pageCount * 0.20  // Impressão colorida por página
     const ADICIONAL_REVISAO   = pageCount * 2.00  // Revisão textual por página
 
-    const base      = PRECO_BASE
+    const base      = getBase(pageCount)
     const a4        = tamanho === 'A4' ? ADICIONAL_A4 : 0
     const papelExtra = papel === 'premium' ? ADICIONAL_PAPEL_90G : 0
     const colorida  = impressaoColorida ? ADICIONAL_COLORIDO : 0
